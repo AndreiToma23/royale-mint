@@ -1,0 +1,110 @@
+{
+  "type": "footer",
+  "name": "t:sections.footer-group.name",
+  "sections": {
+    "footer-promotions": {
+      "type": "footer-promotions",
+      "disabled": true,
+      "blocks": {
+        "footer-promotions-0": {
+          "type": "promotion",
+          "settings": {
+            "enable_image": true,
+            "image_mask": "none",
+            "title": "Site-wide promotion",
+            "text": "<p>Use this section to promote content throughout every page of your site. Add images for further impact.<\/p>",
+            "button_label": "Optional button",
+            "button_link": ""
+          }
+        },
+        "footer-promotions-1": {
+          "type": "promotion",
+          "settings": {
+            "enable_image": true,
+            "image_mask": "none",
+            "title": "Site-wide promotion",
+            "text": "<p>Use this section to promote content throughout every page of your site. Add images for further impact.<\/p>",
+            "button_label": "Optional button",
+            "button_link": ""
+          }
+        },
+        "footer-promotions-2": {
+          "type": "promotion",
+          "settings": {
+            "enable_image": true,
+            "image_mask": "none",
+            "title": "Site-wide promotion",
+            "text": "<p>Use this section to promote content throughout every page of your site. Add images for further impact.<\/p>",
+            "button_label": "Optional button",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "footer-promotions-0",
+        "footer-promotions-1",
+        "footer-promotions-2"
+      ],
+      "settings": {
+        "hide_homepage": false,
+        "image_size": "wide"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "209301e2-1989-4837-ba54-9c4bc38a2ffe": {
+          "type": "menu",
+          "settings": {
+            "show_footer_title": true,
+            "menu": "support",
+            "container_width": 20
+          }
+        },
+        "footer-1": {
+          "type": "menu",
+          "settings": {
+            "show_footer_title": true,
+            "menu": "shop",
+            "container_width": 20
+          }
+        },
+        "075200ba-ad3f-4a46-8dc0-6e74317d326a": {
+          "type": "menu",
+          "settings": {
+            "show_footer_title": true,
+            "menu": "connect",
+            "container_width": 20
+          }
+        },
+        "footer2": {
+          "type": "newsletter",
+          "settings": {
+            "show_footer_title": true,
+            "title": "Subsrcibe to our newsletter",
+            "text": "<p>886 by the Royal Mint would like to keep you up to date with information about our competitions, products, services, offers and news that may interest you. <\/p>",
+            "container_width": 40
+          }
+        }
+      },
+      "block_order": [
+        "209301e2-1989-4837-ba54-9c4bc38a2ffe",
+        "footer-1",
+        "075200ba-ad3f-4a46-8dc0-6e74317d326a",
+        "footer2"
+      ],
+      "settings": {
+        "show_locale_selector": true,
+        "show_currency_selector": true,
+        "show_currency_flags": true,
+        "show_payment_icons": false,
+        "show_copyright": true,
+        "copyright_text": "© 2023 886 The Royal Mint. All Rights Reserved."
+      }
+    }
+  },
+  "order": [
+    "footer-promotions",
+    "footer"
+  ]
+}

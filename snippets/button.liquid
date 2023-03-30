@@ -1,0 +1,17 @@
+{% comment %}
+    Renders a button
+    Accepts:
+    - button_link: {String} Button Link (required)
+    - button_label: {String} Button Label (required)
+    - button_class: {Boolean} adds class to button. Default: false (optional)
+    Usage:
+    {% render 'button',
+        button_link:  section.settings.button_link,
+        button_label: section.settings.button_label,
+        button_class: section.settings.button_style
+    %}
+{% endcomment %}
+
+<a href="{{- button_link -}}" class="btn{% if button_class != empty %} btn--{{- button_class }} {% endif %}">
+    {{- button_label -}}
+</a>

@@ -1,0 +1,377 @@
+{%- if section.settings.divider -%}<div class="section--divider">{%- endif -%}
+
+{%- liquid
+  assign image_width = section.settings.image_width
+  assign has_background_color = false
+
+  if section.settings.select_background_color == true
+    assign has_background_color = true
+  endif
+-%}
+
+{{ 'section-text-and-image.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  {% if section.settings.top_padding == false %}
+    .index-section { margin-top: 0 !important; }
+  {% endif %}
+  {% if section.settings.bottom_padding == false %}
+    .index-section { margin-bottom: 0 !important; }
+  {% endif %}
+{% endstyle %}
+
+<div class="text-and-image {% if has_background_color %} section-with-bg-color {% endif %}" {% if has_background_color %} style="background:{{ section.settings.background_color }}; color:{{ section.settings.background_color }}" {% endif %}>
+
+  <div class="page-width feature-row-wrapper feature-row--{{ image_width }}">
+    {%- capture image_layout -%}
+      <div class="feature-row__item feature-row__images" data-aos>
+        {%- if section.settings.selected_content == 'image' -%}
+          {%- if section.settings.image != blank -%}
+            <div class="feature-row__first-image">
+              {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}<a href="{{ section.settings.button_link }}" class="feature-row__first-image-link">{%- endif -%}
+                <div class="image-wrap" style="height: 0; padding-bottom: {{ 100 | divided_by: section.settings.image.aspect_ratio }}%;">
+                  {%- liquid
+                    assign sizeVariable = 'calc(0.4 * 50vw)'
+                    assign fallback = '40vw'
+                    assign loading = 'lazy'
+                  -%}
+                  {%- render 'image-element',
+                    img: section.settings.image,
+                    widths: '180, 360, 540, 750, 900, 1080',
+                    loading: loading,
+                    sizeVariable: sizeVariable,
+                    fallback: fallback,
+                    classes: 'feature-row__image'
+                  -%}
+                </div>
+              {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}</a>{%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if section.settings.image == blank -%}
+            <div class="placeholder-image-wrap">
+              <div class="image-wrap">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+            <div class="placeholder-image-wrap">
+              <div class="image-wrap">
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+        {%- if section.settings.selected_content == 'video' -%}
+          <div class="video-wrapper">
+            {%- if section.settings.video_url == blank -%}
+              <iframe src="//www.youtube.com/embed/_9VUPq3SxOc?rel=0&showinfo=0&vq=720" width="850" height="480" frameborder="0" allowfullscreen></iframe>
+            {%- else -%}
+              {%- if section.settings.video_url.type == "youtube" -%}
+                <iframe src="//www.youtube.com/embed/{{ section.settings.video_url.id }}?rel=0&showinfo=0&vq=720" width="850" height="480" frameborder="0" allowfullscreen></iframe>
+              {%- endif -%}
+              {%- if section.settings.video_url.type == "vimeo" -%}
+                <iframe src="//player.vimeo.com/video/{{ section.settings.video_url.id }}?color={{ settings.color_button | remove: "#" }}&byline=0&portrait=0&badge=0" width="850" height="480" frameborder="0" allowfullscreen></iframe>
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endcapture -%}
+
+    <div class="feature-row">
+      {%- if section.settings.layout == 'left' -%}
+        {{ image_layout }}
+      {%- endif -%}
+
+      <div class="feature-row__item feature-row__text feature-row__text--{{ section.settings.layout }} text-{{ section.settings.align_text }}" data-aos>
+        <div class="feature-row__text__top">
+          {%- if section.settings.subtitle != blank -%}
+            <div class="subheading text-and-image__subheading appear-delay{% cycle '', '-1', '-2', '-3', '-4' %}">
+              <div class="text-and-image-icon">
+                {% liquid
+                 case section.settings.icon_select
+                  when 'tower'
+                    render 'icon-tower-of-london'
+                  when 'crown'
+                    render 'icon-crown'
+                  when 'crosslet'
+                    render 'icon-crosslet'
+                  when 'number'
+                    render 'icon-number-886'
+                  endcase
+                %}
+              </div>
+              {{ section.settings.subtitle }}
+            </div>
+          {%- endif -%}
+          {%- if section.settings.button_label != blank and section.settings.button_alignment == 'top' -%}
+            <div class="feature-row__top__btn appear-delay{% cycle '', '-1', '-2', '-3', '-4' %}">
+              {% render 'button',
+                button_link: section.settings.button_link,
+                button_label: section.settings.button_label,
+                button_class: section.settings.button_style
+              %}
+            </div>
+          {%- endif -%}
+        </div>
+        <div class="feature-row__text__content">
+          {%- if section.settings.title != blank -%}
+            <div class="h1 appear-delay{% cycle '', '-1', '-2', '-3', '-4' %}">{{ section.settings.title | escape }}</div>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="rte intro appear-delay{% cycle '', '-1', '-2', '-3', '-4' %}">{{ section.settings.text }}</div>
+          {%- endif -%}
+          {%- if section.settings.button_label != blank and section.settings.button_alignment == 'bottom' -%}
+            <div class="feature-row__btn appear-delay{% cycle '', '-1', '-2', '-3', '-4' %}">
+              {% render 'button',
+                button_link: section.settings.button_link,
+                button_label: section.settings.button_label,
+                button_class: section.settings.button_style
+              %}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- if section.settings.layout == 'right' -%}
+        {{ image_layout }}
+      {%- endif -%}
+    </div>
+  </div>
+
+</div>
+
+{%- if section.settings.divider -%}</div>{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.text-and-image.name",
+  "class": "text-and-image-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "selected_content",
+      "label": "Select Image or Video",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.text-and-image.settings.image.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.text-and-image.settings.image.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.text-and-image.settings.video.label"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "t:sections.text-and-image.settings.video_url.label",
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+      "accept": [
+        "youtube",
+        "vimeo"
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "icon_select",
+      "label": "Icon",
+      "default": "tower",
+      "options": [
+        {
+          "value": "tower",
+          "label": "Tower"
+        },
+        {
+          "value": "crown",
+          "label": "Crown"
+        },
+        {
+          "value": "crosslet",
+          "label": "Crosslet"
+        },
+        {
+          "value": "number",
+          "label": "886"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "t:sections.text-and-image.settings.subtitle.label"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.text-and-image.settings.title.label",
+      "default": "Image with text"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:sections.text-and-image.settings.text.label",
+      "default": "<p>Pair large text with an image to tell a story, explain a detail about your product, or describe a new promotion.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.text-and-image.settings.button_label.label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.text-and-image.settings.button_link.label"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "t:sections.text-and-image.settings.button_style.label",
+      "default": "primary",
+      "options": [
+        {
+          "value": "primary",
+          "label": "t:sections.text-and-image.settings.button_style.options.primary.label"
+        },
+        {
+          "value": "secondary",
+          "label": "t:sections.text-and-image.settings.button_style.options.secondary.label"
+        },
+        {
+          "value": "outline",
+          "label": "t:sections.text-and-image.settings.button_style.options.outline.label"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "button_alignment",
+      "label": "t:sections.text-and-image.settings.button_alignment.label",
+      "default": "top",
+      "options": [
+        {
+          "value": "top",
+          "label": "t:sections.text-and-image.settings.button_alignment.options.top.label"
+        },
+        {
+          "value": "bottom",
+          "label": "t:sections.text-and-image.settings.button_alignment.options.bottom.label"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "align_text",
+      "label": "t:sections.text-and-image.settings.align_text.label",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.text-and-image.settings.align_text.options.left.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.text-and-image.settings.align_text.options.center.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.text-and-image.settings.align_text.options.right.label"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "t:common.image_size.label",
+      "min": 30,
+      "max": 70,
+      "step": 10,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:sections.text-and-image.settings.layout.label",
+      "default": "right",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.text-and-image.settings.layout.options.left.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.text-and-image.settings.layout.options.right.label"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "divider",
+      "label": "t:sections.text-and-image.settings.divider.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "top_padding",
+      "label": "t:sections.text-and-image.settings.top_padding.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "bottom_padding",
+      "label": "t:sections.text-and-image.settings.bottom_padding.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "lazyload_images",
+      "label": "t:common.lazyload_images.label",
+      "info": "t:common.lazyload_images.info",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "select_background_color",
+      "label": "t:sections.text-and-image.settings.select_background_color.label",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.text-and-image.settings.background_color.label",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.text-and-image.presets.image_with_text.name"
+    }
+  ],
+  "disabled_on": {
+    "groups": [
+      "footer",
+      "header",
+      "custom.popups"
+    ]
+  }
+}
+{% endschema %}
